@@ -1,0 +1,62 @@
+// donwload and install java (change jdk and jre)
+--wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jre-8u131-linux-x64.rpm"
+--rpm -Uvh jdk.rpm
+--rpm -Uvh jre.rpm
+--java -version
+// install elasticsearch
+--rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+--vi /etc/yum.repos.d/elasticsearch.repo
+
+[elasticsearch-5.x]
+name=Elasticsearch repository for 5.x packages
+baseurl=https://artifacts.elastic.co/packages/5.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+
+-- install
+yum install elasticsearch
+-- start elasticsearch
+-- systemctl start elasticsearch
+curl -XGET 'localhost:9200/?pretty'
+
+-- curl -XGET 'http://localhost:9200/_cluster/state?pretty'
+
+
+
+
+
+curl -XPUT 'localhost:9200/shakespeare_data?pretty' -H 'Content-Type: application/json' -d'
+{
+ "mappings" : {
+  "_default_" : {
+   "properties" : {
+    "speaker" : {"type": "keyword" },
+    "play_name" : {"type": "keyword" },
+    "line_id" : { "type" : "integer" },
+    "speech_number" : { "type" : "integer" }
+   }
+  }
+ }
+}
+'
+
+PUT /master_shakes
+{
+ "mappings" : {
+  "_default_" : {
+   "properties" : {
+    "speaker" : {"type": "keyword" },
+    "play_name" : {"type": "keyword" },
+    "line_id" : { "type" : "integer" },
+    "speech_number" : { "type" : "integer" }
+   }
+  }
+ }
+}
+
+curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/shakespeare_master/_bulk?pretty' --data-binary @shakespeare.json
+
+

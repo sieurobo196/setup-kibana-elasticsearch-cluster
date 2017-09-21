@@ -1,0 +1,39 @@
+-elasticsearch: 
+s1: rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+s2: vi /etc/yum.repos.d/elasticsearch.repo
+[elasticsearch-5.x]
+name=Elasticsearch repository for 5.x packages
+baseurl=https://artifacts.elastic.co/packages/5.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+s3: sudo yum install elasticsearch
+- kibana 
+s1: rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+s2: vi /etc/yum.repos.d/kibana.repo
+[kibana-5.x]
+name=Kibana repository for 5.x packages
+baseurl=https://artifacts.elastic.co/packages/5.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+s3: sudo yum install kibana 
+- logstash
+s1: rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+s2: vi /etc/yum.repos.d/logstash.repo
+[logstash-5.x]
+name=Elastic repository for 5.x packages
+baseurl=https://artifacts.elastic.co/packages/5.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+s3: sudo yum install logstash
+- filebeat
+s1: curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-5.5.0-x86_64.rpm
+s2: sudo rpm -vi filebeat-5.5.0-x86_64.rpm
